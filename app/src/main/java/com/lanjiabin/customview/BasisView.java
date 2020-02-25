@@ -151,6 +151,13 @@ public class BasisView extends View {
             canvas.drawRoundRect(300, 1666, 400, 1899, 50, 60, mPaint);
         }
 
+        mRectF.left=100f;
+        mRectF.top=1920f;
+        mRectF.right=400f;
+        mRectF.bottom=2400f;
+        //画椭圆
+        canvas.drawOval(mRectF,mPaint);
+
 
     }
 }

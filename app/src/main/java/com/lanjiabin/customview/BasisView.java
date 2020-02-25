@@ -4,16 +4,19 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 public class BasisView extends View {
-    /**
-     * 声明画笔
-     */
+    //画笔
     private Paint mPaint;
+    //矩形类
+    RectF mRectF;
+    Rect mRect;
 
     public BasisView(Context context) {
         super(context);
@@ -37,6 +40,8 @@ public class BasisView extends View {
      */
     public void init() {
         mPaint = new Paint();
+        mRectF = new RectF();
+        mRect = new Rect(100, 1411, 200, 1499);
     }
 
     @Override
@@ -99,16 +104,41 @@ public class BasisView extends View {
           线和点的大小与mPaint.setStrokeWidth(30);有关
           与mPaint.setStyle无关
           */
-        canvas.drawPoint(300,700,mPaint);
+        canvas.drawPoint(300, 700, mPaint);
 
         /*
           与上面一致，多个点和跳过的点
           */
         float[] points = {300, 750, 250, 725, 260, 780, 210, 900};
-        canvas.drawPoints(points,mPaint);
+        canvas.drawPoints(points, mPaint);
 
         float[] points2 = {300, 850, 250, 825, 260, 880, 210, 990};
-        canvas.drawPoints(points2,2,4,mPaint);
+        canvas.drawPoints(points2, 2, 4, mPaint);
+
+        /*
+           (cx,cy)圆心坐标
+           radius 圆的半径
+         */
+        canvas.drawCircle(450, 1100, 150, mPaint);
+
+        /*
+          以对角线的方式来绘制矩形
+         （left,top) （right,bottom）形成一个对角线
+          根据对角线来画出矩形
+          1.直接设置参数
+         */
+        canvas.drawRect(100, 1300, 300, 1400, mPaint);
+
+        //2.使用构造函数来设定矩形参数，直接在初始化时赋值
+        canvas.drawRect(mRect, mPaint);
+
+        //3.得到对象后赋值来完成矩形参数
+        mRectF.left = 100f;
+        mRectF.top = 1566f;
+        mRectF.right = 200f;
+        mRectF.bottom = 1599f;
+        canvas.drawRect(mRectF, mPaint);
+
 
     }
 }

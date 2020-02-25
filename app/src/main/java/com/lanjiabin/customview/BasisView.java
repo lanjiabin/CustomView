@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -138,6 +139,17 @@ public class BasisView extends View {
         mRectF.right = 200f;
         mRectF.bottom = 1599f;
         canvas.drawRect(mRectF, mPaint);
+
+        mRectF.left = 100f;
+        mRectF.top = 1666f;
+        mRectF.right = 200f;
+        mRectF.bottom = 1899f;
+        // (rx,ry)是生成椭圆X半径和Y轴半径
+        canvas.drawRoundRect(mRectF, 20, 30, mPaint);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            canvas.drawRoundRect(300, 1666, 400, 1899, 50, 60, mPaint);
+        }
 
 
     }

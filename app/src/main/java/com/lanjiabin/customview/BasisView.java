@@ -45,13 +45,16 @@ public class BasisView extends View {
         //设置画笔的基本属性
         mPaint.setAntiAlias(false); //抗锯齿
         mPaint.setColor(getResources().getColor(R.color.orchid)); //设置画笔颜色
-        mPaint.setStyle(Paint.Style.STROKE); //设置填充样式
         mPaint.setStrokeWidth(10); //设置画笔宽度
 
-        //画圆 cx 圆心x坐标 cy 圆心y坐标 radius 圆半径
+        mPaint.setStyle(Paint.Style.STROKE); //设置填充样式 Paint.Style.STROKE 仅描边
         canvas.drawCircle(190,200,150,mPaint);
 
-        mPaint.setAntiAlias(true); //抗锯齿
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE); //设置填充样式 Paint.Style.STROKE 填充内部和描边
         canvas.drawCircle(510,200,150,mPaint);
+
+        mPaint.setStyle(Paint.Style.FILL); //设置填充样式 Paint.Style.STROKE 仅填充内部，就是没有了圆边
+        canvas.drawCircle(830,200,150,mPaint);
+
     }
 }

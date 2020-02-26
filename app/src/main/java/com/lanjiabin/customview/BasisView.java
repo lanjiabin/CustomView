@@ -1,5 +1,6 @@
 package com.lanjiabin.customview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -16,8 +18,12 @@ public class BasisView extends View {
     //画笔
     private Paint mPaint;
     //矩形类
-    RectF mRectF;
-    Rect mRect;
+    private RectF mRectF;
+    private Rect mRect;
+
+    //点击的坐标
+    private int mX, mY;
+
 
     public BasisView(Context context) {
         super(context);
@@ -66,7 +72,7 @@ public class BasisView extends View {
         /*
           设置画布颜色
           */
-        canvas.drawColor(Color.BLUE); //传入存在的颜色
+        canvas.drawColor(Color.WHITE); //传入存在的颜色
 //        canvas.drawARGB(255,0,255,255); //传入ARGB颜色分量
 //        canvas.drawRGB(255,0,255); //传入RGB分量
 
@@ -151,77 +157,106 @@ public class BasisView extends View {
             canvas.drawRoundRect(300, 1666, 400, 1899, 50, 60, mPaint);
         }
 
-        mRectF.left=100f;
-        mRectF.top=1920f;
-        mRectF.right=400f;
-        mRectF.bottom=2400f;
+        mRectF.left = 100f;
+        mRectF.top = 1920f;
+        mRectF.right = 400f;
+        mRectF.bottom = 2400f;
         //画椭圆
-        canvas.drawOval(mRectF,mPaint);
+        canvas.drawOval(mRectF, mPaint);
 
         /*
-        * 画弧线
-        * startAngle 是指用X水平轴在右边顺时针转过的角度，也就是弧线开始的角度
-        * sweepAngle 是指转过多少角度，也就是这段弧线的角度
-        *
-        * userCenter true/false true的时候
-        * 指的是加上弧的边，也就是形成了扇形，
-        * false的时候，不要两边，只有弧线
-        *
-        * 弧线是根据矩形生成的，（left,top）(right,bottom)确定一条直线
-        * 弧的圆心就是在这条直线的中点，也就是垂直平分线。
-        * */
+         * 画弧线
+         * startAngle 是指用X水平轴在右边顺时针转过的角度，也就是弧线开始的角度
+         * sweepAngle 是指转过多少角度，也就是这段弧线的角度
+         *
+         * userCenter true/false true的时候
+         * 指的是加上弧的边，也就是形成了扇形，
+         * false的时候，不要两边，只有弧线
+         *
+         * 弧线是根据矩形生成的，（left,top）(right,bottom)确定一条直线
+         * 弧的圆心就是在这条直线的中点，也就是垂直平分线。
+         * */
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(8);
-        mRectF.left=100f;
-        mRectF.top=2500f;
-        mRectF.right=400;
-        mRectF.bottom=2700;
+        mRectF.left = 100f;
+        mRectF.top = 2500f;
+        mRectF.right = 400;
+        mRectF.bottom = 2700;
         //加上弧边
-        canvas.drawArc(mRectF,0,80,true,mPaint);
-        canvas.drawArc(mRectF,90,80,true,mPaint);
-        canvas.drawArc(mRectF,180,80,true,mPaint);
-        canvas.drawArc(mRectF,270,80,true,mPaint);
-        canvas.drawArc(mRectF,360,80,true,mPaint);
+        canvas.drawArc(mRectF, 0, 80, true, mPaint);
+        canvas.drawArc(mRectF, 90, 80, true, mPaint);
+        canvas.drawArc(mRectF, 180, 80, true, mPaint);
+        canvas.drawArc(mRectF, 270, 80, true, mPaint);
+        canvas.drawArc(mRectF, 360, 80, true, mPaint);
 
         //填充内部
         mPaint.setStyle(Paint.Style.FILL);
-        mRectF.top=2900f;
-        mRectF.bottom=3100f;
-        canvas.drawArc(mRectF,0,90,true,mPaint);
+        mRectF.top = 2900f;
+        mRectF.bottom = 3100f;
+        canvas.drawArc(mRectF, 0, 90, true, mPaint);
 
         mPaint.setStyle(Paint.Style.STROKE);
-        mRectF.left=600f;
-        mRectF.right=900f;
+        mRectF.left = 600f;
+        mRectF.right = 900f;
         //不要弧边
-        canvas.drawArc(mRectF,0,80,false,mPaint);
-        canvas.drawArc(mRectF,90,80,false,mPaint);
-        canvas.drawArc(mRectF,180,80,false,mPaint);
-        canvas.drawArc(mRectF,270,80,false,mPaint);
-        canvas.drawArc(mRectF,360,80,false,mPaint);
+        canvas.drawArc(mRectF, 0, 80, false, mPaint);
+        canvas.drawArc(mRectF, 90, 80, false, mPaint);
+        canvas.drawArc(mRectF, 180, 80, false, mPaint);
+        canvas.drawArc(mRectF, 270, 80, false, mPaint);
+        canvas.drawArc(mRectF, 360, 80, false, mPaint);
 
         /*
-        * 验证弧心是不是（left,top）(right,bottom)的中点
-        * 两坐标中点求法：
-        * x=(x1+x2)/2
-        * y=(y1+y2)/2
-        * 验证手法：
-        * (200,3500) (400,3700)的中点就是（300,3600）
-        * 我们在中点（300,3600）画一个点，看看是否在弧的弧心
-        * */
+         * 验证弧心是不是（left,top）(right,bottom)的中点
+         * 两坐标中点求法：
+         * x=(x1+x2)/2
+         * y=(y1+y2)/2
+         * 验证手法：
+         * (200,3200) (400,3400)的中点就是（300,3300）
+         * 我们在中点（300,3300）画一个点，看看是否在弧的弧心
+         * */
         //画弧线
-        mRectF.left=200f;
-        mRectF.top=3500;
-        mRectF.right=400f;
-        mRectF.bottom=3700;
-        canvas.drawArc(mRectF,0,90,true,mPaint);
+        mRectF.left = 200f;
+        mRectF.top = 3200;
+        mRectF.right = 400f;
+        mRectF.bottom = 3400;
+        canvas.drawArc(mRectF, 0, 90, true, mPaint);
 
         //画点，确实是在这条直线的中点上
         mPaint.setColor(Color.MAGENTA);
         mPaint.setStrokeWidth(20);
-        canvas.drawPoint(300,3600,mPaint);
+        canvas.drawPoint(300, 3300, mPaint);
 
+        mRectF.left = 200f;
+        mRectF.top = 3500;
+        mRectF.right = 400f;
+        mRectF.bottom = 3600;
+        if (mRectF.contains(mX, mY)) {
+            mPaint.setColor(Color.RED);
+        } else {
+            mPaint.setColor(Color.GREEN);
+        }
+        canvas.drawRect(mRectF, mPaint);
 
+    }
 
-
+    /*
+     * invalidate方法和postInvalidate方法都是用于进行View的刷新，
+     * invalidate方法应用在UI线程中，
+     * 而postInvalidate方法应用在非UI线程中，用于将线程切换到UI线程，
+     * postInvalidate方法最后调用的也是invalidate方法。
+     * */
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mX = (int) event.getX();
+        mY = (int) event.getY();
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            invalidate(); // 必须在主线程中执行。重绘view
+            return true;
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            mX = -1;
+        }
+        postInvalidate(); // 可以在任意线程执行。重绘view
+        return super.onTouchEvent(event);
     }
 }

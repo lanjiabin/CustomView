@@ -158,6 +158,70 @@ public class BasisView extends View {
         //画椭圆
         canvas.drawOval(mRectF,mPaint);
 
+        /*
+        * 画弧线
+        * startAngle 是指用X水平轴在右边顺时针转过的角度，也就是弧线开始的角度
+        * sweepAngle 是指转过多少角度，也就是这段弧线的角度
+        *
+        * userCenter true/false true的时候
+        * 指的是加上弧的边，也就是形成了扇形，
+        * false的时候，不要两边，只有弧线
+        *
+        * 弧线是根据矩形生成的，（left,top）(right,bottom)确定一条直线
+        * 弧的圆心就是在这条直线的中点，也就是垂直平分线。
+        * */
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(8);
+        mRectF.left=100f;
+        mRectF.top=2500f;
+        mRectF.right=400;
+        mRectF.bottom=2700;
+        //加上弧边
+        canvas.drawArc(mRectF,0,80,true,mPaint);
+        canvas.drawArc(mRectF,90,80,true,mPaint);
+        canvas.drawArc(mRectF,180,80,true,mPaint);
+        canvas.drawArc(mRectF,270,80,true,mPaint);
+        canvas.drawArc(mRectF,360,80,true,mPaint);
+
+        //填充内部
+        mPaint.setStyle(Paint.Style.FILL);
+        mRectF.top=2900f;
+        mRectF.bottom=3100f;
+        canvas.drawArc(mRectF,0,90,true,mPaint);
+
+        mPaint.setStyle(Paint.Style.STROKE);
+        mRectF.left=600f;
+        mRectF.right=900f;
+        //不要弧边
+        canvas.drawArc(mRectF,0,80,false,mPaint);
+        canvas.drawArc(mRectF,90,80,false,mPaint);
+        canvas.drawArc(mRectF,180,80,false,mPaint);
+        canvas.drawArc(mRectF,270,80,false,mPaint);
+        canvas.drawArc(mRectF,360,80,false,mPaint);
+
+        /*
+        * 验证弧心是不是（left,top）(right,bottom)的中点
+        * 两坐标中点求法：
+        * x=(x1+x2)/2
+        * y=(y1+y2)/2
+        * 验证手法：
+        * (200,3500) (400,3700)的中点就是（300,3600）
+        * 我们在中点（300,3600）画一个点，看看是否在弧的弧心
+        * */
+        //画弧线
+        mRectF.left=200f;
+        mRectF.top=3500;
+        mRectF.right=400f;
+        mRectF.bottom=3700;
+        canvas.drawArc(mRectF,0,90,true,mPaint);
+
+        //画点，确实是在这条直线的中点上
+        mPaint.setColor(Color.MAGENTA);
+        mPaint.setStrokeWidth(20);
+        canvas.drawPoint(300,3600,mPaint);
+
+
+
 
     }
 }

@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -216,9 +217,9 @@ public class BasisView extends View {
          * */
         //画弧线
         mRectF.left = 200f;
-        mRectF.top = 3200;
+        mRectF.top = 3200f;
         mRectF.right = 400f;
-        mRectF.bottom = 3400;
+        mRectF.bottom = 3400f;
         canvas.drawArc(mRectF, 0, 90, true, mPaint);
 
         //画点，确实是在这条直线的中点上
@@ -227,15 +228,37 @@ public class BasisView extends View {
         canvas.drawPoint(300, 3300, mPaint);
 
         mRectF.left = 200f;
-        mRectF.top = 3500;
+        mRectF.top = 3500f;
         mRectF.right = 400f;
-        mRectF.bottom = 3600;
+        mRectF.bottom = 3600f;
         if (mRectF.contains(mX, mY)) {
             mPaint.setColor(Color.RED);
         } else {
             mPaint.setColor(Color.GREEN);
         }
         canvas.drawRect(mRectF, mPaint);
+
+        mPaint.setStrokeWidth(5);
+        mPaint.setColor(Color.RED);
+        canvas.drawRect(105f,3550f,600f,3800f,mPaint);
+        //判断是否两个矩形相交，如果相交，前者会被后者赋值。
+        Boolean result=mRectF.intersect(105f,3555f,600f,3800f);
+        Log.v("showLog","result="+result+"  mRectF="+mRectF.toShortString());
+
+
+        //矩形1
+        mRectF=new RectF(200f,4000f,400f,4500f);
+        canvas.drawRect(mRectF,mPaint);
+        //矩形2
+        RectF mRectF2=new RectF(105f,4300,600f,4400);
+        canvas.drawRect(mRectF2,mPaint);
+
+        mPaint.setColor(Color.MAGENTA);
+        mRectF.union(mRectF2);
+
+        //合并后的矩形
+        canvas.drawRect(mRectF,mPaint);
+
 
     }
 

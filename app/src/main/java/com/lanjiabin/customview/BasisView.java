@@ -55,30 +55,26 @@ public class BasisView extends View {
         mPaint.setStyle(Paint.Style.STROKE); //设置填充样式 Paint.Style.STROKE 仅描边
         canvas.drawColor(Color.WHITE); //设置画布颜色
 
-        //1.文字
-        String text="砺器悟道,砺器悟道,砺器悟道,砺器悟道";
-        mPaint.setColor(Color.BLUE);
-        mPaint.setStrokeWidth(5);
-        mPaint.setTextSize(45);
+        //添加圆角矩形
+       //(rx,ry)为椭圆的横轴半径和纵轴半径
+       //定义四个角都为一个圆角
+       mRectF=new RectF(50,50,240,200);
+       mPath.addRoundRect(mRectF,10,15, Path.Direction.CCW);
 
-        //把文字逆时针放在路劲上
-        mRectF=new RectF(150,250,440,600);
-        mPath.addRect(mRectF, Path.Direction.CCW);
-        canvas.drawPath(mPath,mPaint);
-        canvas.drawTextOnPath(text,mPath,0,16,mPaint);
+       //每个圆角都不同
+       mRectF=new RectF(290,50,480,200);
+       float[] radii ={10,15,20,25,30,35,40,45};
+       mPath.addRoundRect(mRectF,radii, Path.Direction.CCW);
+       canvas.drawPath(mPath,mPaint);
 
-        //顺时针
-        mPath=new Path();
-        mRectF=new RectF(650,250,900,600);
-        mPath.addRect(mRectF, Path.Direction.CW);
-        canvas.drawPath(mPath,mPaint);
-        canvas.drawTextOnPath(text,mPath,0,16,mPaint);
+       //添加圆形
+       mPath.addCircle(100,100,50, Path.Direction.CCW);
 
+       //添加椭圆路径
+       mPath.addOval(mRectF, Path.Direction.CCW);
 
-
-
-
-
+       //添加弧线路径
+       mPath.addArc(mRectF,0,90);
     }
 
 }

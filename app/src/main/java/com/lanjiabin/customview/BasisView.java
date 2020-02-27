@@ -55,13 +55,16 @@ public class BasisView extends View {
         mPaint.setStyle(Paint.Style.STROKE); //设置填充样式 Paint.Style.STROKE 仅描边
         canvas.drawColor(Color.WHITE); //设置画布颜色
 
-        //1.Path的填充模式
+        //Path重置
         mPaint.setColor(Color.RED);
         mPaint.setStyle(Paint.Style.FILL);
+        mPath.setFillType(Path.FillType.WINDING);
         mPath.addRect(100, 100, 300, 300, Path.Direction.CCW);
+        mPath.rewind();
         mPath.addCircle(300, 300, 100, Path.Direction.CCW);
-        mPath.setFillType(Path.FillType.INVERSE_EVEN_ODD);
         canvas.drawPath(mPath, mPaint);
+//        mPath.reset();
+//        mPath.rewind();
     }
 
 }

@@ -6,15 +6,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <com.lanjiabin.customview.BasisView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="10000dp" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.lanjiabin.customview.SpiderView
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
+        <com.lanjiabin.customview.BasisView
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+    </LinearLayout>
 
 
 </ScrollView>

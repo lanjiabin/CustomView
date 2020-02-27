@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -55,16 +56,15 @@ public class BasisView extends View {
         mPaint.setStyle(Paint.Style.STROKE); //设置填充样式 Paint.Style.STROKE 仅描边
         canvas.drawColor(Color.WHITE); //设置画布颜色
 
-        //Path重置
+        Log.v("showLog","cos="+Math.cos(Math.PI/3)+"");
+
+        //1.Path重置
         mPaint.setColor(Color.RED);
         mPaint.setStyle(Paint.Style.FILL);
-        mPath.setFillType(Path.FillType.WINDING);
+        mPath.setFillType(Path.FillType.INVERSE_EVEN_ODD);
         mPath.addRect(100, 100, 300, 300, Path.Direction.CCW);
-        mPath.rewind();
         mPath.addCircle(300, 300, 100, Path.Direction.CCW);
         canvas.drawPath(mPath, mPaint);
-//        mPath.reset();
-//        mPath.rewind();
     }
 
 }

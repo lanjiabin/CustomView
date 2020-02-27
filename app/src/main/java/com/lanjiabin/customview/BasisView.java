@@ -55,18 +55,29 @@ public class BasisView extends View {
         mPaint.setStyle(Paint.Style.STROKE); //设置填充样式 Paint.Style.STROKE 仅描边
         canvas.drawColor(Color.WHITE); //设置画布颜色
 
-        // 绘制直线路径
-        mPath.moveTo(150, 100); // 设置起始点
-        mPath.lineTo(150, 199); // 第一条直线的终点，也是第二条直线的起点
-        mPath.lineTo(440, 199); // 画第二条直线
-        mPath.close(); //形成闭环
-        canvas.drawPath(mPath, mPaint); //绘制路径
+        //1.文字
+        String text="砺器悟道,砺器悟道,砺器悟道,砺器悟道";
+        mPaint.setColor(Color.BLUE);
+        mPaint.setStrokeWidth(5);
+        mPaint.setTextSize(45);
 
-        // 绘制弧线路径
-        mPath.moveTo(150, 230); // 起点
-        mRectF = new RectF(100, 250, 200, 299); //生成椭圆的矩形
-        mPath.arcTo(mRectF, 0, 90, true); // 0是起始角度，90是弧经过的角度
-        canvas.drawPath(mPath, mPaint);
+        //把文字逆时针放在路劲上
+        mRectF=new RectF(150,250,440,600);
+        mPath.addRect(mRectF, Path.Direction.CCW);
+        canvas.drawPath(mPath,mPaint);
+        canvas.drawTextOnPath(text,mPath,0,16,mPaint);
+
+        //顺时针
+        mPath=new Path();
+        mRectF=new RectF(650,250,900,600);
+        mPath.addRect(mRectF, Path.Direction.CW);
+        canvas.drawPath(mPath,mPaint);
+        canvas.drawTextOnPath(text,mPath,0,16,mPaint);
+
+
+
+
+
 
     }
 

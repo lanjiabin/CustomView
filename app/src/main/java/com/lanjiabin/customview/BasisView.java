@@ -51,16 +51,13 @@ public class BasisView extends View {
         super.onDraw(canvas);
         //设置画笔的基本属性
         mPaint.setAntiAlias(false); //抗锯齿
-        mPaint.setColor(getResources().getColor(R.color.orchid)); //设置画笔颜色
+        mPaint.setColor(getResources().getColor(R.color.white)); //设置画笔颜色
         mPaint.setStrokeWidth(5); //设置画笔宽度
         mPaint.setStyle(Paint.Style.STROKE); //设置填充样式 Paint.Style.STROKE 仅描边
-        canvas.drawColor(Color.WHITE); //设置画布颜色
-
-        Log.v("showLog","cos="+Math.cos(Math.PI/3)+"");
-
+        canvas.drawColor(Color.RED); //设置画布颜色
+        
         //1.Path重置
-        mPaint.setColor(Color.RED);
-        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStyle(Paint.Style.STROKE);
         mPath.setFillType(Path.FillType.INVERSE_EVEN_ODD);
         mPath.addRect(100, 100, 300, 300, Path.Direction.CCW);
         mPath.addCircle(300, 300, 100, Path.Direction.CCW);

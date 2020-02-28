@@ -11,6 +11,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <com.lanjiabin.customview.DivText
+            android:layout_width="match_parent"
+            android:layout_height="2000dp"/>
         <com.lanjiabin.customview.SpiderView
             android:layout_width="match_parent"
             android:layout_height="500dp"/>
